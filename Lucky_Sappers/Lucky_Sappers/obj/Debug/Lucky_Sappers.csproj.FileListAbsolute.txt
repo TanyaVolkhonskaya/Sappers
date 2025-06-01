@@ -1,0 +1,16 @@
+E:\Lucky_Sappers\Lucky_Sappers\bin\Debug\Lucky_Sappers.exe.config
+E:\Lucky_Sappers\Lucky_Sappers\bin\Debug\Lucky_Sappers.exe
+E:\Lucky_Sappers\Lucky_Sappers\bin\Debug\Lucky_Sappers.pdb
+E:\Lucky_Sappers\Lucky_Sappers\obj\Debug\Lucky_Sappers.csproj.AssemblyReference.cache
+E:\Lucky_Sappers\Lucky_Sappers\obj\Debug\Lucky_Sappers.Properties.Resources.resources
+E:\Lucky_Sappers\Lucky_Sappers\obj\Debug\Lucky_Sappers.csproj.GenerateResource.cache
+E:\Lucky_Sappers\Lucky_Sappers\obj\Debug\Lucky_Sappers.csproj.CoreCompileInputs.cache
+E:\Lucky_Sappers\Lucky_Sappers\obj\Debug\Lucky_Sappers.exe
+E:\Lucky_Sappers\Lucky_Sappers\obj\Debug\Lucky_Sappers.pdb
+E:\Lucky_Sappers\Lucky_Sappers\bin\Debug\Newtonsoft.Json.dll
+E:\Lucky_Sappers\Lucky_Sappers\bin\Debug\Newtonsoft.Json.xml
+E:\Lucky_Sappers\Lucky_Sappers\obj\Debug\Lucky_Sa.11D76564.Up2Date
+E:\Lucky_Sappers\Lucky_Sappers\obj\Debug\Lucky_Sappers.Menu.resources
+E:\Lucky_Sappers\Lucky_Sappers\bin\Debug\Model.dll
+E:\Lucky_Sappers\Lucky_Sappers\bin\Debug\Model.pdb
+E:\Lucky_Sappers\Lucky_Sappers\obj\Debug\Lucky_Sappers.Game.resources

@@ -1,0 +1,9 @@
+E:\Lucky_Sappers\Model\bin\Debug\Model.dll
+E:\Lucky_Sappers\Model\bin\Debug\Model.pdb
+E:\Lucky_Sappers\Model\bin\Debug\Newtonsoft.Json.dll
+E:\Lucky_Sappers\Model\bin\Debug\Newtonsoft.Json.xml
+E:\Lucky_Sappers\Model\obj\Debug\Model.csproj.AssemblyReference.cache
+E:\Lucky_Sappers\Model\obj\Debug\Model.csproj.CoreCompileInputs.cache
+E:\Lucky_Sappers\Model\obj\Debug\Model.csproj.Up2Date
+E:\Lucky_Sappers\Model\obj\Debug\Model.dll
+E:\Lucky_Sappers\Model\obj\Debug\Model.pdb
