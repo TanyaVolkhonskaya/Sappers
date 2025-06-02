@@ -6,6 +6,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using Model.Core;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -15,19 +16,18 @@ namespace Lucky_Sappers
     {
         ButtonExtendent[,] allButtons;
         private readonly Sizes _field;
-        private readonly JsonSer _ser = new JsonSer();
         public Game(Sizes field)
         {
             _field = field;
             InitializeComponent();
         }
+        
 
-        private void Game_Load(object sender, EventArgs e)
+      private void Game_Load(object sender, EventArgs e)
         {
-
             var width = _field.Width;
             var height = _field.Height;
-            var distation = width + 30;
+            var distation = width + 25;
             allButtons = new ButtonExtendent[width, height];
             var rng = new Random();
             for (int x = 10; (x - 10) < width * distation; x += distation)
@@ -37,14 +37,32 @@ namespace Lucky_Sappers
                     ButtonExtendent button = new ButtonExtendent();
                     button.Location = new Point(x, y);
                     button.Size = new Size(30, 30);
-                    if (rng.Next(0, 101) < 20)
+                    if (rng.Next(0, 101) < 40)
                     {
                         button.IsBomb = true;
                     }
-                    allButtons[(x - 10) / distation, (y - 30) / distation] = button;
+                    else
+                    {
+                        button.Emprty = true;
+                    }
+                        allButtons[(x - 10) / distation, (y - 30) / distation] = button;
                     Controls.Add(button);
                     button.Click += new EventHandler(FieldClick);
                 }
+            }
+        }
+        void PlantedtheFlag(object sender, EventArgs e)
+        {
+            var button =(ButtonExtendent)sender;
+            if (button.Emprty)
+            {
+                button.BackColor = Color.Red;
+                button.Enabled = false;
+            }
+            else if (button.BackColor == Color.Red)
+            {
+                button.BackColor = Color.White;
+                button.Enabled = true;
             }
         }
         void FieldClick(object sender, EventArgs e)
@@ -53,6 +71,10 @@ namespace Lucky_Sappers
             if (button.IsBomb)
             {
                 Explode(button);
+            }
+            else if (button.BackColor == Color.Red)
+            {
+
             }
             else
             {
@@ -116,5 +138,6 @@ namespace Lucky_Sappers
     class ButtonExtendent : Button
     {
         public bool IsBomb;
+        public bool Emprty;
     }
 }

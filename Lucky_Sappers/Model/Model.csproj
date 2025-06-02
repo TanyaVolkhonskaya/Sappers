@@ -45,16 +45,19 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Class1.cs" />
-    <Compile Include="Kletka.cs" />
+    <Compile Include="Core\Field.cs" />
+    <Compile Include="Core\Kletka.cs" />
+    <Compile Include="Core\kletka2.cs" />
+    <Compile Include="Core\JsonSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Data\Serializator.cs" />
-    <Compile Include="Svoystva.cs" />
+    <Compile Include="Core\Serializator.cs" />
+    <Compile Include="Core\Svoystva.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Core\" />
+    <Folder Include="Data\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -1,10 +1,12 @@
 ﻿using Model;
+using Model.Data;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.IO;
+using Model.Core;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -23,44 +25,16 @@ namespace Lucky_Sappers
         {
 
         }
+        
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            var filed = new Sizes(5, 5, 0.2);
-            var game = new Game(filed);
-            game.Show();
-        }
-
-        private void button2_Click(object sender, EventArgs e)
-        {
-            if (File.Exists("save.json"))
-            {
-                var ser = new JsonSer();
-                var data = ser.Load("save.json");
-                var field = LoadField(data);
-                var gameForm = new Game(field);
-                gameForm.Show();
-                this.Hide();
-            }
-            else
-            {
-                MessageBox.Show("Сохраненная игра не найдена");
-            }
-        }
-
-        private Sizes LoadField(DataGame data)
+        private Sizes LoadField(Sizes data)
         {
             var field = new Sizes(data.Width, data.Height, 0);
             for (int x = 0; x < data.Width; x++)
             {
                 for (int y = 0; y < data.Height; y++)
                 {
-                    var cellData = data.kl[x, y];
+                    var cellData = data.Kletochka[x, y];
                     if (cellData.IsBomb)
                     {
                         field.Kletochka[x, y] = new Bomb();
@@ -76,6 +50,38 @@ namespace Lucky_Sappers
                 }
             }
             return field;
+        }
+
+        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            string[] levels = { "10*10", "10*5", "20*20", "15*15", "5*5" };
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            var filed = new Sizes(5, 5, 0.2);
+            var game = new Game(filed);
+            
+            game.Show();
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            if (File.Exists("save.json"))
+            {
+                var ser = new JsonSerializer();
+                var data = ser.Deserialize< Sizes>("save.json");
+                var field = LoadField(data);
+                var gameForm = new Game(field);
+                gameForm.Show();
+                this.Hide();
+            }
+            else
+            {
+                MessageBox.Show("Сохраненная игра не найдена");
+            }
         }
     }
 }
