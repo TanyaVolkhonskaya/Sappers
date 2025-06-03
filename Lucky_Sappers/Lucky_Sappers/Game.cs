@@ -14,6 +14,7 @@ namespace Lucky_Sappers
 {
     public partial class Game : Form
     {
+        private Color c;
         ButtonExtendent[,] allButtons;
         private readonly Sizes _field;
         public Game(Sizes field)
@@ -45,25 +46,44 @@ namespace Lucky_Sappers
                     {
                         button.Emprty = true;
                     }
+                    c= Color.LightGreen;
+                    button.BackColor = c;
                         allButtons[(x - 10) / distation, (y - 30) / distation] = button;
                     Controls.Add(button);
-                    button.Click += new EventHandler(FieldClick);
+                    button.MouseDown += new MouseEventHandler(FieldMouseDown);
                 }
             }
         }
+        private void FieldMouseDown(object sender, MouseEventArgs e)
+        {
+            ButtonExtendent button = (ButtonExtendent)sender;
+            if (e.Button == MouseButtons.Left)
+            {
+                FieldClick(sender,e);
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+                PlantedtheFlag(sender,e);
+            }
+
+        }
+        private void Game_MouseClick(object sender, MouseEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
         void PlantedtheFlag(object sender, EventArgs e)
         {
             var button =(ButtonExtendent)sender;
-            if (button.Emprty)
+            if (button.BackColor == Color.Red)
             {
-                button.BackColor = Color.Red;
-                button.Enabled = false;
+                button.BackColor = c;
             }
-            else if (button.BackColor == Color.Red)
+            else
             {
-                button.BackColor = Color.White;
-                button.Enabled = true;
+                button.BackColor= Color.Red;
             }
+            
         }
         void FieldClick(object sender, EventArgs e)
         {

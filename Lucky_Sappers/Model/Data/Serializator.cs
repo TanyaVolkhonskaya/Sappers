@@ -1,4 +1,4 @@
-﻿using Lucky_Sappers;
+﻿
 using Model;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
@@ -7,40 +7,40 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using System.IO;
+using Model.Data;
 
-namespace Model
+namespace Model.Core
 {
-    public class DataGame
+    delegate string Filnames(string filname);
+    public interface ISer
     {
-        public int Width { get; set; }
-        public int Height { get; set; }
-        public Datakl[,] kl {  get; set; }
+        string FolderPath {  get; }
+        string FilePath { get; }
+        string SelectFile(string path);
     }
-    public class Datakl
+    public abstract class Serializer:ISer
     {
-        public bool IsBomb { get;  set; }
-        public bool IsFlagged { get; set; }
-        public bool IsDigit { get; set; }
-        public int Counter { get; set; }
-    }
-    }
-    public class JsonSer
-    {
-        public void Save (DataGame dataGame,string filePath)
-    {
-        var jo = new JsonSerializerSettings
-        {
-            Formatting = Formatting.Indented
-        };
-        var json = JsonConvert.SerializeObject (dataGame, jo);
-    
-    }
-    public DataGame Load(string filePath)
-    {
-        var json = File.ReadAllText(filePath);
-        return JsonConvert.DeserializeObject<DataGame>(json);
-    }
+        //private static int count;
+        public string FolderPath { get; private set; }
+        public string FilePath { get;private set; }
+       
+        protected abstract string Extension { get; }
 
+        public string SelectFile(string path)
+        {
+            string FolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string FilePath = Path.Combine(FolderPath,$"{path}.{Extension}");
+           if (!File.Exists(FilePath))
+            {
+                using (File.Create(FilePath)) ;
+            }
+           return FilePath;
+            
+        }
+
+        public abstract void Serialize<T>(T obj, string fileName) where T : Sizes;
+        public abstract T Deserialize<T>(string fileName) where T : Sizes;
+        
+    }
 }

@@ -58,7 +58,7 @@ namespace Lucky_Sappers
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void Start_Game(object sender, EventArgs e)
         {
             var filed = new Sizes(5, 5, 0.2);
             var game = new Game(filed);
@@ -67,7 +67,7 @@ namespace Lucky_Sappers
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void Continue_Game(object sender, EventArgs e)
         {
             if (File.Exists("save.json"))
             {
