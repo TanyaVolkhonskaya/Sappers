@@ -17,7 +17,7 @@ namespace Model.Core
     }
     public class Bomb : Kletka
     {
-        public Bomb()
+        public  Bomb()
         {
             IsBomb = true;
         }

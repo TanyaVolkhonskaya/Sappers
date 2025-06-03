@@ -22,35 +22,31 @@ namespace Lucky_Sappers
             _field = field;
             InitializeComponent();
         }
-        
 
-      private void Game_Load(object sender, EventArgs e)
+
+        private void Game_Load(object sender, EventArgs e)
         {
             var width = _field.Width;
             var height = _field.Height;
-            var distation = width + 25;
+            var distation = 35; // Фиксированный размер ячейки + отступ
             allButtons = new ButtonExtendent[width, height];
-            var rng = new Random();
-            for (int x = 10; (x - 10) < width * distation; x += distation)
+
+            for (int x = 0; x < width; x++)
             {
-                for (int y = 30; (y - 30) < height * distation; y += distation)
+                for (int y = 0; y < height; y++)
                 {
                     ButtonExtendent button = new ButtonExtendent();
-                    button.Location = new Point(x, y);
+                    button.Location = new Point(10 + x * distation, 30 + y * distation);
                     button.Size = new Size(30, 30);
-                    if (rng.Next(0, 101) < 40)
-                    {
-                        button.IsBomb = true;
-                    }
-                    else
-                    {
-                        button.Emprty = true;
-                    }
-                    c= Color.LightGreen;
-                    button.BackColor = c;
-                        allButtons[(x - 10) / distation, (y - 30) / distation] = button;
+
+                    // Используем данные из _field.Kletochka
+                    button.IsBomb = _field.Kletochka[x, y] is Bomb;
+                    button.Emprty = _field.Kletochka[x, y] is Empty;
+
+                    button.BackColor = Color.LightGreen;
+                    allButtons[x, y] = button;
                     Controls.Add(button);
-                    button.MouseDown += new MouseEventHandler(FieldMouseDown);
+                    button.MouseDown += FieldMouseDown;
                 }
             }
         }
@@ -59,31 +55,26 @@ namespace Lucky_Sappers
             ButtonExtendent button = (ButtonExtendent)sender;
             if (e.Button == MouseButtons.Left)
             {
-                FieldClick(sender,e);
+                FieldClick(sender, e);
             }
             else if (e.Button == MouseButtons.Right)
             {
-                PlantedtheFlag(sender,e);
+                PlantedtheFlag(sender, e);
             }
 
         }
-        private void Game_MouseClick(object sender, MouseEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
-
         void PlantedtheFlag(object sender, EventArgs e)
         {
-            var button =(ButtonExtendent)sender;
+            var button = (ButtonExtendent)sender;
             if (button.BackColor == Color.Red)
             {
                 button.BackColor = c;
             }
             else
             {
-                button.BackColor= Color.Red;
+                button.BackColor = Color.Red;
             }
-            
+
         }
         void FieldClick(object sender, EventArgs e)
         {
@@ -104,19 +95,19 @@ namespace Lucky_Sappers
         }
         void Explode(ButtonExtendent button)
         {
-            var width = _field.Width;
-            var height = _field.Height;
-            for (int x = 0; x < width; x++)
+            for (int x = 0; x < _field.Width; x++)
             {
-                for (int y = 0; y < height; y++)
+                for (int y = 0; y < _field.Height; y++)
                 {
-                    if (allButtons[x, y].IsBomb)
+                    if (_field.Kletochka[x, y] is Bomb)
                     {
                         allButtons[x, y].Text = "*";
+                        allButtons[x, y].BackColor = Color.Red;
                     }
                 }
             }
-            MessageBox.Show("Вы проиграли");
+            MessageBox.Show("Вы проиграли!");
+            Close();
         }
         void EmptyFieldClick(ButtonExtendent button)
         {
@@ -144,7 +135,7 @@ namespace Lucky_Sappers
                 {
                     if (x >= 0 && x < width && y >= 0 && y < height)
                     {
-                        if (allButtons[x, y].IsBomb)
+                        if (_field.Kletochka[x, y] is Bomb)
                         {
                             count++;
                         }

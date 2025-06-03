@@ -17,7 +17,7 @@ namespace Model.Core
             Width = width;
             Height = height;
             Kletochka = new Kletka[width, height];
-            Counter = (int)(level * Width * Height);
+            Counter = (int)((level * Width * Height)/100);
             GenerateNull();
             BombPlace(level);
             CountNumber();
@@ -38,18 +38,14 @@ namespace Model.Core
             var bombiki = 0;
             while (bombiki < Counter)
             {
-                for (int x = 0; x < Width; x++)
-                {
-                    for (int y = 0; y < Height; y++)
-                    {
-                        if (rng.Next(0, 101) < level * 100)
-                        {
-                            Kletochka[x, y] = new Bomb();
-                            bombiki++;
-                        }
-                    }
-                }
+                int x = rng.Next(0, Width);
+                int y = rng.Next(0, Height);
 
+                if (Kletochka[x, y] is Empty) // Проверяем, что клетка пустая
+                {
+                    Kletochka[x, y] = new Bomb();
+                    bombiki++;
+                }
             }
         }
         private void CountNumber()// число на клетке

@@ -31,6 +31,8 @@
             this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.button3 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
+            this.trackBar2 = new System.Windows.Forms.TrackBar();
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).BeginInit();
             this.SuspendLayout();
             // 
             // comboBox1
@@ -62,9 +64,18 @@
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.Continue_Game);
             // 
+            // trackBar2
+            // 
+            this.trackBar2.Location = new System.Drawing.Point(445, 244);
+            this.trackBar2.Name = "trackBar2";
+            this.trackBar2.Size = new System.Drawing.Size(268, 90);
+            this.trackBar2.TabIndex = 4;
+            this.trackBar2.Scroll += new System.EventHandler(this.Level);
+            // 
             // Menu
             // 
             this.ClientSize = new System.Drawing.Size(922, 581);
+            this.Controls.Add(this.trackBar2);
             this.Controls.Add(this.button4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.comboBox1);
@@ -73,7 +84,9 @@
             this.MinimizeBox = false;
             this.Name = "Menu";
             this.Load += new System.EventHandler(this.Menu_Load);
+            ((System.ComponentModel.ISupportInitialize)(this.trackBar2)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -84,6 +97,7 @@
         private System.Windows.Forms.ComboBox comboBox1;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button4;
+        private System.Windows.Forms.TrackBar trackBar2;
     }
 }
 
