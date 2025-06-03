@@ -60,7 +60,7 @@
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(247, 112);
             this.button4.TabIndex = 2;
-            this.button4.Text = "button4";
+            this.button4.Text = "Продолжить";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.Continue_Game);
             // 

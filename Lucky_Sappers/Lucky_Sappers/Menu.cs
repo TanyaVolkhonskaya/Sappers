@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Security.Cryptography;
 
 namespace Lucky_Sappers
 {
@@ -33,7 +34,7 @@ namespace Lucky_Sappers
         private void InitializeTrackBar()
         {
             trackBar2.Minimum = 20;
-            trackBar2.Maximum = 40;
+            trackBar2.Maximum = 100;
             trackBar2.Value = Procent;
             trackBar2.TickFrequency = 1;
             trackBar2.Scroll += Level;
@@ -49,12 +50,15 @@ namespace Lucky_Sappers
             {
             new { Text = "10x10", Width = 10, Height = 10 },
             new { Text = "10x5",  Width = 10, Height = 5 },
-            new { Text = "5x5",   Width = 5,  Height = 5 }
+            new { Text = "5x5",   Width = 5,  Height = 5 },
+            new { Text = "1x1", Width = 1, Height = 1 },
+            new { Text = "20x20",  Width = 20, Height = 20 },
+            new { Text = "15x15",   Width = 15,  Height = 15 }
              });
 
             comboBox1.DisplayMember = "Text";
             comboBox1.ValueMember = "Width"; // Можно использовать любое свойство
-            comboBox1.SelectedIndex = 0; // Выбрать первый элемент по умолчанию
+            comboBox1.Text = "Выбери размерность"; // Выбрать первый элемент по умолчанию
 
             // Обработчик изменения выбора
             comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged_1;
@@ -99,6 +103,11 @@ namespace Lucky_Sappers
 
         private void Start_Game(object sender, EventArgs e)
         {
+            if (fieldHeight == 0 || fieldWidth == 0)
+            {
+                MessageBox.Show("Выберите размерность");
+                return;
+            }
             var filed = new Sizes(fieldWidth, fieldHeight, Procent);
             var game = new Game(filed);
             
@@ -108,8 +117,11 @@ namespace Lucky_Sappers
 
         private void Continue_Game(object sender, EventArgs e)
         {
-            if (File.Exists("save.json"))
+            string FolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            string FilePath = Path.Combine(FolderPath, $"save.json");
+            if (File.Exists(FilePath))
             {
+                
                 var ser = new JsonSerializer();
                 var data = ser.Deserialize< Sizes>("save.json");
                 var field = LoadField(data);

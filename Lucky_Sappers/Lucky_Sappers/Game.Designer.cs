@@ -34,7 +34,7 @@
             // 
             // Game
             // 
-            this.ClientSize = new System.Drawing.Size(550, 543);
+            this.ClientSize = new System.Drawing.Size(620, 625);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.MaximizeBox = false;
             this.MinimizeBox = false;

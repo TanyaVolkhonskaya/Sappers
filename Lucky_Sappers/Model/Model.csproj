@@ -47,7 +47,6 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Core\Field.cs" />
     <Compile Include="Core\FieldTime.cs" />
-    <Compile Include="Core\FieldWin.cs" />
     <Compile Include="Core\Kletka.cs" />
     <Compile Include="Data\DTO.cs" />
     <Compile Include="Data\JsonSerializer.cs" />

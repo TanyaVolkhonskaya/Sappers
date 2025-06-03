@@ -41,12 +41,41 @@ namespace Model.Core
                 int x = rng.Next(0, Width);
                 int y = rng.Next(0, Height);
 
-                if (Kletochka[x, y] is Empty) // Проверяем, что клетка пустая
+                if (Kletochka[x, y] is Empty ) // Проверяем, что клетка пустая
                 {
-                    Kletochka[x, y] = new Bomb();
+                    if (CheckBomb(x, y))Kletochka[x, y] = new Bomb();
                     bombiki++;
                 }
             }
+        }
+        private bool CheckBomb(int bombX, int bombY)
+        {
+            int emptyCellsAround = 0;
+
+            // Проверяем все 8 соседних клеток
+            for (int dx = -1; dx <= 1; dx++)
+            {
+                for (int dy = -1; dy <= 1; dy++)
+                {
+                    if (dx == 0 && dy == 0) continue; // Пропускаем саму бомбу
+
+                    int nx = bombX + dx;
+                    int ny = bombY + dy;
+
+                    // Если клетка в пределах поля и пустая (может стать числовой)
+                    if (nx >= 0 && nx < Width && ny >= 0 && ny < Height &&
+                        Kletochka[nx, ny] is Empty)
+                    {
+                        emptyCellsAround++;
+
+                        // Если уже нашли 3 подходящие клетки - можно выходить
+                        if (emptyCellsAround >= 3)
+                            return true;
+                    }
+                }
+            }
+
+            return emptyCellsAround >= 3;
         }
         private void CountNumber()// число на клетке
         {
