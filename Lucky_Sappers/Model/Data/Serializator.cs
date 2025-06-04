@@ -9,38 +9,34 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO;
 using Model.Data;
+using Model.Core;
+using Newtonsoft.Json.Serialization;
 
-namespace Model.Core
+namespace Model.Data
 {
-    delegate string Filnames(string filname);
-    public interface ISer
+    delegate string MathOperation(string fileName);
+    public interface ISerializer
     {
-        string FolderPath {  get; }
+        string FolderPath { get; }
         string FilePath { get; }
-        string SelectFile(string path);
+        string SelectFile(string name);
     }
-    public abstract class Serializer:ISer
+    public abstract class Serializer : ISerializer
     {
-        //private static int count;
         public string FolderPath { get; private set; }
-        public string FilePath { get;private set; }
-       
-        protected abstract string Extension { get; }
+        public string FilePath { get; private set; }
+        public abstract string Extension { get; }
 
-        public string SelectFile(string path)
+        public string SelectFile(string name)
         {
-            string FolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string FilePath = Path.Combine(FolderPath,$"{path}.{Extension}");
-           if (!File.Exists(FilePath))
+            var name_file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"{name}.{Extension}");
+            if (File.Exists(name_file) == false)
             {
-                using (File.Create(FilePath)) ;
+                File.Create(name_file).Close();
             }
-           return FilePath;
-            
+            FilePath = name_file;
+            return FilePath;
         }
-
-        public abstract void Serialize<T>(T obj, string fileName) where T : Sizes;
-        public abstract T Deserialize<T>(string fileName) where T : Sizes;
-        
     }
+
 }

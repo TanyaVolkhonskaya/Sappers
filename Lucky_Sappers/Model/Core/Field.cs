@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,15 +13,30 @@ namespace Model.Core
         public int Height { get; }
         public Kletka[,] Kletochka { get; }
         private int Counter { get; }
-        public Sizes(int width, int height, double level)
+        public int Level { get; }
+        public bool Lose { get; private set; }
+        public bool Win {  get; private set; }
+        private bool firstClickOccurred;
+        private DateTime _startTime;
+        private int? _timeLimit;
+        private readonly Stopwatch _gameStopwatch = new Stopwatch();
+        private bool _firstClickOccurred;
+        
+        public Sizes(int width, int height, int level)
         {
             Width = width;
             Height = height;
+            Level = level;
             Kletochka = new Kletka[width, height];
-            Counter = (int)((level * Width * Height)/100);
+            Counter = (int)((level * Width * Height) / 100);
             GenerateNull();
             BombPlace(level);
-            CountNumber();
+
+        }
+        public void StartTimer(int? timeLimit = null)
+        {
+            _timeLimit = timeLimit;
+            _startTime = DateTime.Now;
         }
         private void GenerateNull()// поле со всеми null
         {
@@ -41,9 +57,9 @@ namespace Model.Core
                 int x = rng.Next(0, Width);
                 int y = rng.Next(0, Height);
 
-                if (Kletochka[x, y] is Empty ) // Проверяем, что клетка пустая
+                if (Kletochka[x, y] is Empty) // Проверяем, что клетка пустая
                 {
-                    if (CheckBomb(x, y))Kletochka[x, y] = new Bomb();
+                    if (CheckBomb(x, y)) Kletochka[x, y] = new Bomb();
                     bombiki++;
                 }
             }
@@ -77,32 +93,67 @@ namespace Model.Core
 
             return emptyCellsAround >= 3;
         }
-        private void CountNumber()// число на клетке
+        public void RevealCell(int x, int y)
         {
-            for (int x1 = 0; x1 < Width; x1++)
+            if (x < 0 || x >= Width || y < 0 || y >= Height || Kletochka[x, y].Openspases)
+                return;
+
+            Kletochka[x, y].Openspases = true;
+
+            if (Kletochka[x, y] is Bomb)
             {
-                for (int y1 = 0; y1 < Height; y1++)
+                Lose = true;
+                RevealAllBombs();
+                return;
+            }
+
+            if (Kletochka[x, y] is Empty && CountBombsAround(x, y) == 0)
+            {
+                // Открываем соседние клетки
+                for (int dx = -1; dx <= 1; dx++)
                 {
-                    if (Kletochka[x1, y1].IsBomb)
+                    for (int dy = -1; dy <= 1; dy++)
                     {
-                        for (int x = x1 - 1; x <= x1 + 1; x++)
-                        {
-                            for (int y = y1 - 1; y <= y1 + 1; y++)
-                            {
-                                if (x >= 0 && x < Width && y >= 0 && y < Height)
-                                {
-                                    if (!(Kletochka[x, y] is Bomb))
-                                    {
-                                        Kletochka[x, y] = new Digit();// подсчёт бомб вокруг
-                                    }
-                                    Kletochka[x, y].Counter++;
-                                }
-                            }
-                        }
+                        if (dx == 0 && dy == 0) continue;
+                        RevealCell(x + dx, y + dy);
+                    }
+                }
+            }
+
+            CheckWinCondition();
+        }
+        public int CountBombsAround(int bx, int by)
+        {
+            int count = 0;
+            for (int x = bx - 1; x <= bx + 1; x++)
+            {
+                for (int y = by - 1; y <= by + 1; y++)
+                {
+                    if (x >= 0 && x < Width && y >= 0 && y < Height && Kletochka[x, y] is Bomb)
+                    {
+                        count++;
+                    }
+                }
+            }
+            return count;
+        }
+
+        public void CheckWinCondition()
+        {
+            Win = true;
+
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    // Если есть не-бомба, которая не открыта и не помечена флагом
+                    if (!(Kletochka[x, y] is Bomb) && !Kletochka[x, y].Openspases)
+                    {
+                        Win = false;
+                        return;
                     }
                 }
             }
         }
-
     }
 }

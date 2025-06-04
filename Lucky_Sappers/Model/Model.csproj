@@ -47,9 +47,12 @@
     <Compile Include="Class1.cs" />
     <Compile Include="Core\Field.cs" />
     <Compile Include="Core\FieldTime.cs" />
+    <Compile Include="Core\FieldWinner.cs" />
     <Compile Include="Core\Kletka.cs" />
     <Compile Include="Data\DTO.cs" />
     <Compile Include="Data\JsonSerializer.cs" />
+    <Compile Include="Data\TheBest.cs" />
+    <Compile Include="Data\XMLSerializer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Data\Serializator.cs" />
     <Compile Include="Core\Svoystva.cs" />

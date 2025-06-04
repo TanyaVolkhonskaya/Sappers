@@ -8,10 +8,10 @@ namespace Model.Core
 {
     public interface ISvoystva
     {
-        bool IsBomb { get; } //бомба
-        bool IsFlagged { get; set; }// флажок
-        bool IsDigit { get; set; }// клетка с числом
-        bool Empty { get; set; }// пустая клетка без числа (0)
+        bool IsBomb {  get; }
+        bool Openspases { get; }
+        bool IsFlagged { get; }
+        int Counter {  get; }
     }
     
 

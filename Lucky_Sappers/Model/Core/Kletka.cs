@@ -12,8 +12,11 @@ namespace Model.Core
         public bool IsFlagged { get; set; }
         public bool IsDigit { get; set; }
         public bool Empty { get; set; }
+        public bool Openspases { get; set; }
         public int Counter { get; set; }
         public int CountFlag { get; set; }
+        public int Level { get; set; }
+        
     }
     public class Bomb : Kletka
     {
@@ -22,7 +25,10 @@ namespace Model.Core
             IsBomb = true;
         }
     }
-    public class Flag : Kletka { }
+    public class Flag : Kletka 
+    {
+        public Kletka Original { get; set; }
+    }
     public class Digit : Kletka { }
     public class Empty : Kletka { }
 }

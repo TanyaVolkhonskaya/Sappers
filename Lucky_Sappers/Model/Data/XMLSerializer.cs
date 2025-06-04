@@ -1,39 +1,38 @@
-﻿using Newtonsoft.Json;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Model.Core;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json.Linq;
-using static Model.Data.XML_SerializerList;
+using System.Xml.Serialization;
+using Model.Core;
+using Model.Data;
 
 namespace Model.Data
 {
-    public class JSON_SerializerList : Serializer
+    public class XML_SerializerList : Serializer
     {
         public override string Extension
         {
             get
             {
-                return "json";
+                return "xml";
             }
         }
         public int[] Deserialize()
         {
             MathOperation operation = SelectFile;
             string FilePath = operation($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}/top");
-            var text = File.ReadAllText(FilePath);
-            var top = JsonConvert.DeserializeObject<Top>(text);
-
-            if (top == null) return new int[0];
-
+            XmlSerializer top_10 = new XmlSerializer(typeof(Top));
+            Top top;
+            using (StreamReader writer = new StreamReader(FilePath))
+            {
+                top = (Top)top_10.Deserialize(writer);
+            }
             int[] top_top = top.Top_10;
             return top_top;
         }
-
-        public void Serialize(int top_1)
+        public void Serializer_top_10(int top_1)
         {
             MathOperation operation = SelectFile;
             string FilePath = operation($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}/top");
@@ -55,34 +54,34 @@ namespace Model.Data
                 }
             }
             new_top = new_top.Take(10).ToArray();
-            var xml = new XML_SerializerList();
-            xml.Serializer_top_10(new_top);
-            Top top = new Top
+            var json = new JSON_SerializerList();
+            json.Serialize(new_top);
+            Top top = new Top(new_top);
+            XmlSerializer xml_ser = new XmlSerializer(typeof(Top));
+            using (StreamWriter writ = new StreamWriter(FilePath))
             {
-                Top_10 = new_top
-
-            };
-            string js = JsonConvert.SerializeObject(top);
-
-            File.WriteAllText(FilePath, js);
+                xml_ser.Serialize(writ, top);
+            }
         }
-        public void Serialize(int[] top_10)
+        public void Serializer_top_10(int[] top_10)
         {
             MathOperation operation = SelectFile;
             string FilePath = operation($"{Environment.GetFolderPath(Environment.SpecialFolder.Desktop)}/top");
-            Top top = new Top
+            Top top = new Top(top_10);
+            XmlSerializer xml_ser = new XmlSerializer(typeof(Top));
+            using (StreamWriter writ = new StreamWriter(FilePath))
             {
-                Top_10 = top_10
-
-            };
-            string js = JsonConvert.SerializeObject(top);
-
-            File.WriteAllText(FilePath, js);
+                xml_ser.Serialize(writ, top);
+            }
         }
-        private class Top
+        public class Top
         {
             public int[] Top_10 { get; set; }
-            public int Top_1 { get; set; }
+            public Top() { }
+            public Top(int[] top_10)
+            {
+                Top_10 = top_10;
+            }
         }
     }
 }

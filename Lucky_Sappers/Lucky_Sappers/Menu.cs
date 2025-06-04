@@ -12,6 +12,9 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Security.Cryptography;
+using System.Reflection.Emit;
+using static System.Net.Mime.MediaTypeNames;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace Lucky_Sappers
 {
@@ -19,34 +22,68 @@ namespace Lucky_Sappers
     {
         private int fieldWidth;
         private int fieldHeight;
-        private int level;
+        private int[] text;
+
+        private string format="json";
         private int Procent = 30;
+
+        private string FolderPath= Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        private string FileName="save";
+        private string FullPath => Path.Combine(FolderPath, FileName + $".{format}");
         public Menu()
         {
-            InitializeComponent();
-        }
 
-        private void Menu_Load(object sender, EventArgs e)
-        {
+            InitializeComponent();
             InitializeComboBox();
             InitializeTrackBar();
+            //InitializeNewComboBox();
+            InitilizeComboBoer();
+            changePath();
+        }
+                
+        private void Menu_Load(object sender, EventArgs e)
+        {
+            
         }
         private void InitializeTrackBar()
         {
-            trackBar2.Minimum = 20;
-            trackBar2.Maximum = 100;
-            trackBar2.Value = Procent;
-            trackBar2.TickFrequency = 1;
-            trackBar2.Scroll += Level;
-            Label p = new Label();
-            p.Text = $"{Procent} % мин";
-            p.Location= new Point(trackBar2.Right+10,trackBar2.Top);
-            this.Controls.Add(p);
-            trackBar2.Tag = p;
+            trackBar1.Minimum = 20;
+            trackBar1.Maximum = 40;
+            trackBar1.Value = Procent;
+            trackBar1.TickFrequency = 1;
+            trackBar1.Scroll += Level;
+            
+            label1.Text = $"{Procent} % мин";
+            label1.Location= new Point(trackBar1.Right+10,trackBar1.Top);
+            this.Controls.Add(label1);
+            trackBar1.Tag = label1;
+        }
+        private void InitilizeComboBoer()
+        {
+            comboBox1.Items.AddRange(new object[]
+            {
+                new {Text ="json", format ="json"},
+                new {Text = "XML", format = "xml"}
+            });
+            comboBox1.DisplayMember = "Text";
+            comboBox1.ValueMember = "format";
+            comboBox1.Text = "Выбери формат";
+            comboBox1.SelectedIndex = 0; // Выбираем первый элемент по умолчанию
+            comboBox1.SelectedIndexChanged += ComboBox1_SelectedIndexChanged;
+        }
+        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (comboBox1.SelectedItem != null)
+            {
+                // Получаем выбранный формат через отражение
+                dynamic select = comboBox1.SelectedItem;
+                format = select.format;
+                changePath();
+            }
         }
         private void InitializeComboBox()
         {
-            comboBox1.Items.AddRange(new object[]
+            comboBox2.Items.AddRange(new object[]
             {
             new { Text = "10x10", Width = 10, Height = 10 },
             new { Text = "10x5",  Width = 10, Height = 5 },
@@ -56,52 +93,148 @@ namespace Lucky_Sappers
             new { Text = "15x15",   Width = 15,  Height = 15 }
              });
 
-            comboBox1.DisplayMember = "Text";
-            comboBox1.ValueMember = "Width"; // Можно использовать любое свойство
-            comboBox1.Text = "Выбери размерность"; // Выбрать первый элемент по умолчанию
+            comboBox2.DisplayMember = "Text";
+            comboBox2.ValueMember = "Width"; // Можно использовать любое свойство
+            comboBox2.Text = "Выбери размерность"; // Выбрать первый элемент по умолчанию
 
             // Обработчик изменения выбора
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged_1;
+            comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged_1;
         }
-        private Sizes LoadField(Sizes data)
+        public void MMenu()
         {
-            var field = new Sizes(data.Width, data.Height, level);
-            for (int x = 0; x < data.Width; x++)
+
+            string selectedText = comboBox2.SelectedItem.ToString();
+
+            var name_file = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.Desktop), $"top.{comboBox2.SelectedItem.ToString()}");
+
+            if (File.Exists(name_file) == true)
             {
-                for (int y = 0; y < data.Height; y++)
+                if (selectedText == "json")
                 {
-                    var cellData = data.Kletochka[x, y];
-                    if (cellData.IsBomb)
-                    {
-                        field.Kletochka[x, y] = new Bomb();
-                    }
-                    else if (cellData.Counter > Procent)
-                    {
-                        field.Kletochka[x, y] = new Digit();
-                    }
-                    else field.Kletochka[x, y] = new Empty();
-                    field.Kletochka[x, y].IsFlagged = cellData.IsFlagged;
-                    field.Kletochka[x, y].IsDigit = cellData.IsDigit;
-                    field.Kletochka[x, y].Counter = cellData.Counter;
+                    var xml = new XML_SerializerList();
+                    var json = new JSON_SerializerList();
+
+                    text = xml.Deserialize();
+                    json.Serialize(text);
+
+                }
+                else // XML
+                {
+                    var xml = new XML_SerializerList();
+                    var json = new JSON_SerializerList();
+                    text = json.Deserialize();
+                    xml.Serializer_top_10(text);
                 }
             }
-            return field;
+
+            tableLayoutPanel2.Controls.Clear();
+
+            if (!File.Exists(FullPath) || text == null || text.Length == 0)
+            {
+                tableLayoutPanel2.Visible = false;
+                label3.Text = "У вас нет результатов";
+                label3.Location = new Point(145, 250);
+                label3.Visible = true;
+            }
+            else
+            {
+                tableLayoutPanel2.Visible = true;
+                label3.Visible = false;
+
+                // Очищаем предыдущие элементы
+                tableLayoutPanel2.RowStyles.Clear();
+                tableLayoutPanel2.RowCount = text.Length;
+
+                for (int i = 0; i < text.Length; i++)
+                {
+                    // Добавляем стиль для строки
+                    tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.AutoSize));
+
+                    // Создаем новую метку для каждого результата (без var)
+
+                    label3.Text = $"{i + 1}. {text[i]}";
+                    label3.Dock = DockStyle.Fill;
+                    label3.TextAlign = ContentAlignment.MiddleLeft;
+                    label3.Font = new Font("Arial", 10);
+
+                    tableLayoutPanel2.Controls.Add(label3, 0, i);
+                }
+            }
         }
 
-        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        public void SelectFolder(string path)
         {
-            if (comboBox1.SelectedItem != null)
+            if (path == null) return;
+            if (Directory.Exists(path) == false)
             {
-                // Получаем выбранный элемент через отражение
-                var selectedItem = comboBox1.SelectedItem;
-                var type = selectedItem.GetType();
-
-                fieldWidth = (int)type.GetProperty("Width").GetValue(selectedItem);
-                fieldHeight = (int)type.GetProperty("Height").GetValue(selectedItem);
+                Directory.CreateDirectory(path);
+            }
+            FolderPath = path;
+        }
+        public void SelectFile(string name, string extension)
+        {
+            if (name == null || FolderPath == null) return;
+            var name_file = Path.Combine(FolderPath, $"{name}.{extension}");
+            if (File.Exists(name_file) == false)
+            {
+                File.Create(name_file).Close();
+            }
+            FileName = name_file;
+        }
+        private void comboBox2_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+            if (comboBox2.SelectedItem != null)
+            {
+                dynamic selectedItem = comboBox2.SelectedItem;
+                fieldWidth = selectedItem.Width;
+                fieldHeight = selectedItem.Height;
             }
         }
 
         private void Start_Game(object sender, EventArgs e)
+        {}
+        private void Level(object sender, EventArgs e)
+        {
+            Procent=trackBar1.Value;
+            label1.Text = $"{Procent}% мин";
+            
+        }
+
+        private void Continue_Game(object sender, EventArgs e)
+        {
+            changePath();
+        }
+        private void changePath()
+        {
+            label2.Text = FullPath;
+
+        }
+        private void folderBrowserDialog1_HelpRequest(object sender, EventArgs e)
+        {
+
+        }
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            MMenu();
+        }
+
+
+        private void tableLayoutPanel1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void Menu_Load_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void button1_Click(object sender, EventArgs e)
         {
             if (fieldHeight == 0 || fieldWidth == 0)
             {
@@ -109,39 +242,74 @@ namespace Lucky_Sappers
                 return;
             }
             var filed = new Sizes(fieldWidth, fieldHeight, Procent);
-            var game = new Game(filed);
-            
-            game.Show();
-
-        }
-
-        private void Continue_Game(object sender, EventArgs e)
-        {
-            string FolderPath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            string FilePath = Path.Combine(FolderPath, $"save.json");
-            if (File.Exists(FilePath))
+            var f = format;
+            if (format == "json")
             {
-                
-                var ser = new JsonSerializer();
-                var data = ser.Deserialize< Sizes>("save.json");
-                var field = LoadField(data);
-                var gameForm = new Game(field);
-                gameForm.Show();
-                this.Hide();
+
+                var game = new Game(filed, new JSON_SerializerList(), 300);
+                game.Show();
+            }
+            else if (format == "xml")
+            {
+                var game = new Game(filed, new XML_SerializerList(),300);
+                game.Show();
             }
             else
             {
-                MessageBox.Show("Сохраненная игра не найдена");
+                MessageBox.Show("Выберите типы файла");
+            }
+
+
+        }
+
+        private void tableLayoutPanel2_Paint_1(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void label2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void folderBrowserDialog1_HelpRequest_1(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button3_Click_1(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                FileName = folderBrowserDialog1.SelectedPath;
+                changePath();
             }
         }
 
-        private void Level(object sender, EventArgs e)
+        private void label2_Click_1(object sender, EventArgs e)
         {
-            Procent=trackBar2.Value;
-            if (trackBar2.Tag is Label label)
+
+        }
+
+        private void textBox1_TextChanged(object sender, EventArgs e)
+        {
+            var sb = new StringBuilder();
+            foreach (var c in textBox1.Text)
             {
-                label.Text = $"{Procent}% мин";
+                if (char.IsLetterOrDigit(c)) sb.Append(c);
             }
+            FileName = sb.Length > 0 ? sb.ToString() : "save";
+            textBox1.Text = FileName;
+            changePath();
+        }
+        private void Form1_Activated(object sender, EventArgs e)
+        {
+            changePath();
+        }
+
+        private void label3_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }
