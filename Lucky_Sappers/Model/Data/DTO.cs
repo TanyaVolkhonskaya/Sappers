@@ -43,8 +43,6 @@ namespace Model.Data
                         IsFlagged = kletochkadto.IsFlagged,
                         IsDigit = kletochkadto.IsDigit,
                         Empty = kletochkadto.Empty,
-                        Counter = kletochkadto.Counter,
-                        CountFlag = kletochkadto.CountFlag
                     };
                 }
             }
@@ -77,8 +75,6 @@ namespace Model.Data
                     kletka.IsFlagged = kletkadto.IsFlagged;
                     kletka.IsDigit = kletkadto.IsDigit;
                     kletka.Empty = kletkadto.Empty;
-                    kletka.Counter = kletkadto.Counter;
-                    kletka.CountFlag = kletkadto.CountFlag;
 
                     sizes.Kletochka[i, j] = kletka;
                 }

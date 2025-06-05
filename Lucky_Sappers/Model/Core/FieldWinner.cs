@@ -12,7 +12,7 @@ namespace Model.Core
         {
             return AreAllMinesFlagged() && AreAllSafeCellsRevealed();
         }
-        public bool AreAllMinesFlagged()
+        public bool AreAllMinesFlagged()//проверка всех мин с флагами
         {
             for (int x = 0; x < Width; x++)
             {
@@ -27,7 +27,7 @@ namespace Model.Core
             return true;
         }
 
-        public bool AreAllSafeCellsRevealed()
+        public bool AreAllSafeCellsRevealed()// проверка открытие всех безопасных клеток
         {
             for (int x = 0; x < Width; x++)
             {
@@ -41,7 +41,7 @@ namespace Model.Core
             }
             return true;
         }
-        public void ToggleFlag(int x, int y)
+        public void ToggleFlag(int x, int y)//флаг - не флаг
         {
             if (Kletochka[x, y].Openspases) return;
 
@@ -54,7 +54,7 @@ namespace Model.Core
                 Kletochka[x, y].IsFlagged = true;
             }
         }
-        public void RevealAllBombs()
+        public void RevealAllBombs()//открытие всех мин на поле
         {
             if (!firstClick)
             {
@@ -71,7 +71,7 @@ namespace Model.Core
                 }
             }
         }
-        public void CheckWinCondition()
+        public void CheckWinCondition()//меняет значение Win
         {
             Win = true;
 

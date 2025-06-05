@@ -44,35 +44,35 @@
             // 
             // button1
             // 
-            this.button1.Location = new System.Drawing.Point(56, 86);
+            this.button1.Location = new System.Drawing.Point(124, 130);
             this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(220, 102);
+            this.button1.Size = new System.Drawing.Size(312, 134);
             this.button1.TabIndex = 0;
             this.button1.Text = "Начать";
             this.button1.UseVisualStyleBackColor = true;
-            this.button1.Click += new System.EventHandler(this.button1_Click);
+            this.button1.Click += new System.EventHandler(this.Start_button);
             // 
             // button2
             // 
-            this.button2.Location = new System.Drawing.Point(56, 219);
+            this.button2.Location = new System.Drawing.Point(124, 270);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(220, 85);
+            this.button2.Size = new System.Drawing.Size(312, 147);
             this.button2.TabIndex = 1;
             this.button2.Text = "Продолжить";
             this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.button2_Click);
+            this.button2.Click += new System.EventHandler(this.Continue_Button);
             // 
             // trackBar1
             // 
-            this.trackBar1.Location = new System.Drawing.Point(293, 197);
+            this.trackBar1.Location = new System.Drawing.Point(485, 197);
             this.trackBar1.Name = "trackBar1";
-            this.trackBar1.Size = new System.Drawing.Size(200, 90);
+            this.trackBar1.Size = new System.Drawing.Size(298, 90);
             this.trackBar1.TabIndex = 2;
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(471, 219);
+            this.label1.Location = new System.Drawing.Point(778, 249);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(70, 25);
             this.label1.TabIndex = 3;
@@ -81,7 +81,7 @@
             // comboBox1
             // 
             this.comboBox1.FormattingEnabled = true;
-            this.comboBox1.Location = new System.Drawing.Point(85, 512);
+            this.comboBox1.Location = new System.Drawing.Point(617, 452);
             this.comboBox1.Name = "comboBox1";
             this.comboBox1.Size = new System.Drawing.Size(144, 33);
             this.comboBox1.TabIndex = 5;
@@ -90,10 +90,11 @@
             // comboBox2
             // 
             this.comboBox2.FormattingEnabled = true;
-            this.comboBox2.Location = new System.Drawing.Point(310, 122);
+            this.comboBox2.Location = new System.Drawing.Point(485, 142);
             this.comboBox2.Name = "comboBox2";
-            this.comboBox2.Size = new System.Drawing.Size(169, 33);
+            this.comboBox2.Size = new System.Drawing.Size(337, 33);
             this.comboBox2.TabIndex = 6;
+            this.comboBox2.Text = "Выберите размер поля";
             // 
             // folderBrowserDialog1
             // 
@@ -101,38 +102,16 @@
             // 
             // tableLayoutPanel2
             // 
-            this.tableLayoutPanel2.ColumnCount = 1;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(574, 127);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 10;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(202, 402);
-            this.tableLayoutPanel2.TabIndex = 7;
-            this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint_1);
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(135, 80);
+            this.tableLayoutPanel2.TabIndex = 15;
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(30, 470);
+            this.label2.Location = new System.Drawing.Point(146, 504);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(70, 25);
             this.label2.TabIndex = 11;
@@ -141,22 +120,22 @@
             // 
             // textBox1
             // 
-            this.textBox1.Location = new System.Drawing.Point(85, 386);
+            this.textBox1.Location = new System.Drawing.Point(447, 452);
             this.textBox1.Name = "textBox1";
             this.textBox1.Size = new System.Drawing.Size(152, 31);
             this.textBox1.TabIndex = 12;
             this.textBox1.Text = "Название файла";
-            this.textBox1.TextChanged += new System.EventHandler(this.textBox1_TextChanged);
+            this.textBox1.TextChanged += new System.EventHandler(this.Filenamiki);
             // 
             // button3
             // 
-            this.button3.Location = new System.Drawing.Point(35, 323);
+            this.button3.Location = new System.Drawing.Point(151, 439);
             this.button3.Name = "button3";
             this.button3.Size = new System.Drawing.Size(257, 46);
             this.button3.TabIndex = 14;
             this.button3.Text = "Выберите папку";
             this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
+            this.button3.Click += new System.EventHandler(this.FilPath_Button);
             // 
             // Menu
             // 
@@ -172,7 +151,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "Menu";
-            this.Load += new System.EventHandler(this.Menu_Load_2);
+            this.Load += new System.EventHandler(this.Menu_Load_1);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

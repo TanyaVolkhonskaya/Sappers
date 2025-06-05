@@ -39,7 +39,6 @@ F:\Saper-main\Sappers11\Lucky_Sappers\Lucky_Sappers\bin\Debug\Newtonsoft.Json.dl
 F:\Saper-main\Sappers11\Lucky_Sappers\Lucky_Sappers\bin\Debug\Model.pdb
 F:\Saper-main\Sappers11\Lucky_Sappers\Lucky_Sappers\bin\Debug\Newtonsoft.Json.xml
 F:\Saper-main\Sappers11\Lucky_Sappers\Lucky_Sappers\obj\Debug\Lucky_Sappers.csproj.AssemblyReference.cache
-F:\Saper-main\Sappers11\Lucky_Sappers\Lucky_Sappers\obj\Debug\Lucky_Sappers.BestSrores.resources
 F:\Saper-main\Sappers11\Lucky_Sappers\Lucky_Sappers\obj\Debug\Lucky_Sappers.Game.resources
 F:\Saper-main\Sappers11\Lucky_Sappers\Lucky_Sappers\obj\Debug\Lucky_Sappers.Menu.resources
 F:\Saper-main\Sappers11\Lucky_Sappers\Lucky_Sappers\obj\Debug\Lucky_Sappers.Properties.Resources.resources

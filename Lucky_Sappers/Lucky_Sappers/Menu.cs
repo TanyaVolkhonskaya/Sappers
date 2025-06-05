@@ -75,9 +75,9 @@ namespace Lucky_Sappers
             comboBox1.ValueMember = "format";
             comboBox1.Text = "Выбери формат";
             comboBox1.SelectedIndex = 0; // Выбираем первый элемент по умолчанию
-            comboBox1.SelectedIndexChanged += ComboBox1_SelectedIndexChanged;
+            comboBox1.SelectedIndexChanged += FormatFile;
         }
-        private void ComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        private void FormatFile(object sender, EventArgs e)
         {
             if (comboBox1.SelectedItem != null)
             {
@@ -113,7 +113,7 @@ namespace Lucky_Sappers
             comboBox2.Text = "Выбери размерность"; // Выбрать первый элемент по умолчанию
 
             // Обработчик изменения выбора
-            comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged_1;
+            comboBox2.SelectedIndexChanged += SizeField;
         }
         public void MMenu()
         {
@@ -165,7 +165,7 @@ namespace Lucky_Sappers
             }
             FileName = name_file;
         }
-        private void comboBox2_SelectedIndexChanged_1(object sender, EventArgs e)
+        private void SizeField(object sender, EventArgs e)
         {
             if (comboBox2.SelectedItem != null)
             {
@@ -214,24 +214,7 @@ namespace Lucky_Sappers
             }
             changePath();
         }
-
-
-        private void tableLayoutPanel1(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void Menu_Load_1(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tableLayoutPanel2_Paint(object sender, PaintEventArgs e)
-        {
-
-        }
-
-        private void button1_Click(object sender, EventArgs e)
+        private void Start_button(object sender, EventArgs e)
         {
             if (fieldHeight == 0 || fieldWidth == 0)
             {
@@ -258,29 +241,19 @@ namespace Lucky_Sappers
 
 
         }
-
-        private void tableLayoutPanel2_Paint_1(object sender, PaintEventArgs e)
-        {
-
-        }
-
         private void label2_Click(object sender, EventArgs e)
         {
 
         }
 
         private void folderBrowserDialog1_HelpRequest_1(object sender, EventArgs e)
-        {
-
-        }
+        {}
 
 
         private void label2_Click_1(object sender, EventArgs e)
-        {
+        {}
 
-        }
-
-        private void textBox1_TextChanged(object sender, EventArgs e)
+        private void Filenamiki(object sender, EventArgs e)
         {
             var sb = new StringBuilder();
             for (int i = 0; i < textBox1.Text.Length; i++)
@@ -302,16 +275,8 @@ namespace Lucky_Sappers
         }
 
         private void label3_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void Menu_Load_2(object sender, EventArgs e)
-        {
-
-        }
-
-        private void button2_Click(object sender, EventArgs e)
+        {}
+        private void Continue_Button(object sender, EventArgs e)
         {
 
             if (serialize == null)
@@ -340,9 +305,7 @@ namespace Lucky_Sappers
             }
 
         }
-
-
-        private void button3_Click(object sender, EventArgs e)
+        private void FilPath_Button(object sender, EventArgs e)
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -352,8 +315,9 @@ namespace Lucky_Sappers
         }
 
         private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
-        {
+        {}
 
-        }
+        private void Menu_Load_1(object sender, EventArgs e)
+        {}
     }
 }

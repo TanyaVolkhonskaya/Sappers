@@ -159,15 +159,12 @@ namespace Lucky_Sappers
 
 
         private void button1_Click(object sender, EventArgs e)
-        {
-
-        }
+        {}
 
         private void timer1_Trick(object sender, EventArgs e)
         { }
         private void label1_Click(object sender, EventArgs e)
-        {
-        }
+        {}
 
         private void Game_FormClosing(object sender, FormClosingEventArgs e)
         {

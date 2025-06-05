@@ -8,14 +8,11 @@ namespace Model.Core
 {
     public abstract class Kletka : ISvoystva
     {
-        public bool IsBomb { get; set; }
-        public bool IsFlagged { get; set; }
-        public bool IsDigit { get; set; }
-        public bool Empty { get; set; }
-        public bool Openspases { get; set; }
-        public int Counter { get; set; }
-        public int CountFlag { get; set; }
-        public int Level { get; set; }
+        public bool IsBomb { get; set; }//бомба
+        public bool IsFlagged { get; set; }//флаг
+        public bool IsDigit { get; set; }//число
+        public bool Empty { get; set; }//пустая
+        public bool Openspases { get; set; }//открытая
         
     }
     public class Bomb : Kletka

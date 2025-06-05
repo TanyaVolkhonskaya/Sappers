@@ -11,9 +11,8 @@ namespace Model.Core
     {
         private Stopwatch _gameTimer = new Stopwatch();
 
-        public bool IsTimerRunning => _gameTimer.IsRunning;
-        public int ElapsedSeconds => (int)(_gameTimer.Elapsed.TotalSeconds);
-        public int RemainingSeconds => Math.Max(0, Timer - ElapsedSeconds);
+        public int ElapsedSeconds => (int)(_gameTimer.Elapsed.TotalSeconds);//прошедшее время
+        public int RemainingSeconds => Math.Max(0, Timer - ElapsedSeconds);//оставшееся время
 
 
         public void StartTimer()
@@ -29,6 +28,7 @@ namespace Model.Core
         {
             _gameTimer.Reset();
         }
-        public bool IsTimeExpired() { return RemainingSeconds <= 0; }
+        public bool IsTimeExpired() //проверка окончания таймера
+        { return RemainingSeconds <= 0; }
     }
 }

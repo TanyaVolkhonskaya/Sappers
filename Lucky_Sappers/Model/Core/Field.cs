@@ -10,15 +10,15 @@ namespace Model.Core
 {
     public partial class Sizes // свойства поля
     {
-        public int Width { get; private set; }
-        public int Height { get; private set; }
-        public Kletka[,] Kletochka { get; private set; }
-        public int Counter { get; private set; }
-        public int Level { get; private set; }
-        public bool Lose { get; private set; }
-        public bool Win {  get; private set; }
+        public int Width { get; private set; }//ширина
+        public int Height { get; private set; }//длина
+        public Kletka[,] Kletochka { get; private set; }//поле со свойствами
+        public int Counter { get; private set; }//счётчик мин
+        public int Level { get; private set; }//уровень
+        public bool Lose { get; private set; }//проигрыш
+        public bool Win {  get; private set; }//победа
         private bool firstClick;
-        public int Timer {  get; set; }
+        public int Timer {  get; set; }//время
 
         public Sizes(int width,int height, int level, int Time)
         {
@@ -32,25 +32,25 @@ namespace Model.Core
             BombPlace(level);
 
         }
-        public Sizes(int width, int height, int level, int Time, Kletka[,]kle)
-        {
-            Width = width;
-            Height = height;
-            Level = level;
-            Kletochka = new Kletka[width, height];
-            Timer = Time;
-            foreach(var k in kle)
-            {
-                for (int i = 0; i < Kletochka.GetLength(0); i++)
-                {
-                    for (int j = 0; j < Kletochka.GetLength(1); j++)
-                    {
-                        Kletochka[i, j]= kle[i, j];
-                    }
-                }
-            }
+        //public Sizes(int width, int height, int level, int Time, Kletka[,]kle)
+        //{
+        //    Width = width;
+        //    Height = height;
+        //    Level = level;
+        //    Kletochka = new Kletka[width, height];
+        //    Timer = Time;
+        //    foreach(var k in kle)
+        //    {
+        //        for (int i = 0; i < Kletochka.GetLength(0); i++)
+        //        {
+        //            for (int j = 0; j < Kletochka.GetLength(1); j++)
+        //            {
+        //                Kletochka[i, j]= kle[i, j];
+        //            }
+        //        }
+        //    }
 
-        }
+        //}
         private void GenerateNull()// поле со всеми null
         {
             for (int x = 0; x < Width; x++)
@@ -77,7 +77,7 @@ namespace Model.Core
                 }
             }
         }
-        private bool CheckBomb(int bombX, int bombY)
+        private bool CheckBomb(int bombX, int bombY)//проверяем соседние бомбы
         {
             int emptyKletkaAround = 0;
 
@@ -106,7 +106,7 @@ namespace Model.Core
 
             return emptyKletkaAround >= 3;
         }
-        public void RevealCell(int x, int y)
+        public void RevealCell(int x, int y)//для открытия соседних пустых полей
         {
             if (x < 0 || x >= Width || y < 0 || y >= Height || Kletochka[x, y].Openspases)
                 return;

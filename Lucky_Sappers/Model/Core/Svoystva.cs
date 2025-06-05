@@ -8,10 +8,9 @@ namespace Model.Core
 {
     public interface ISvoystva
     {
-        bool IsBomb {  get; }
-        bool Openspases { get; }
-        bool IsFlagged { get; }
-        int Counter {  get; }
+        bool IsBomb {  get; }//бомба
+        bool Openspases { get; }//открытая
+        bool IsFlagged { get; }//флажковая
     }
     
 
