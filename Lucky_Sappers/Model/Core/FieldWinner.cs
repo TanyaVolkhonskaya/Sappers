@@ -56,7 +56,7 @@ namespace Model.Core
         }
         public void RevealAllBombs()
         {
-            if (!firstClickOccurred)
+            if (!firstClick)
             {
                 StartTimer();
             }
@@ -67,6 +67,23 @@ namespace Model.Core
                     if (Kletochka[x, y] is Bomb)
                     {
                         Kletochka[x, y].Openspases = true;
+                    }
+                }
+            }
+        }
+        public void CheckWinCondition()
+        {
+            Win = true;
+
+            for (int x = 0; x < Width; x++)
+            {
+                for (int y = 0; y < Height; y++)
+                {
+                    // Если есть не-бомба, которая не открыта и не помечена флагом
+                    if (!(Kletochka[x, y] is Bomb) && !Kletochka[x, y].Openspases)
+                    {
+                        Win = false;
+                        return;
                     }
                 }
             }

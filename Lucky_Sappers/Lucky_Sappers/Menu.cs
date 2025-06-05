@@ -33,9 +33,10 @@ namespace Lucky_Sappers
         private string FolderPath=Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         private string FileName="save";
         private string FullPath=>Path.Combine(FolderPath, FileName+$".{format}");
+        
         public Menu()
         {
-
+            serialize = new JsonSerializer();
             InitializeComponent();
             InitializeComboBox();
             InitializeTrackBar();
@@ -80,9 +81,18 @@ namespace Lucky_Sappers
         {
             if (comboBox1.SelectedItem != null)
             {
-                // Получаем выбранный формат через отражение
                 dynamic select = comboBox1.SelectedItem;
                 format = select.format;
+                // Инициализируем сериализатор сразу при выборе формата
+                switch (format.ToLower())
+                {
+                    case "json":
+                        serialize = new JsonSerializer();
+                        break;
+                    case "xml":
+                        serialize = new SerializerXML();
+                        break;
+                }
                 changePath();
             }
         }
@@ -93,7 +103,7 @@ namespace Lucky_Sappers
             new { Text = "10x10", Width = 10, Height = 10,Time = 200 },
             new { Text = "10x5",  Width = 10, Height = 5,Time =100 },
             new { Text = "5x5",   Width = 5,  Height = 5, Time =50 },
-            new { Text = "1x1", Width = 1, Height = 1 ,Time =50},
+            new { Text = "1x1", Width = 1, Height = 1 ,Time =10},
             new { Text = "20x20",  Width = 20, Height = 20,Time =400 },
             new { Text = "15x15",   Width = 15,  Height = 15,Time=250 }
              });
@@ -116,7 +126,7 @@ namespace Lucky_Sappers
             {
                 if (selectedText == "json")
                 {
-                    var xml = new XML_SerializerList();
+                    var xml = new XML_TOP_S();
                     var json = new JSON_SerializerList();
 
                     text = xml.Deserialize();
@@ -125,10 +135,10 @@ namespace Lucky_Sappers
                 }
                 else // XML
                 {
-                    var xml = new XML_SerializerList();
+                    var xml = new XML_TOP_S();
                     var json = new JSON_SerializerList();
                     text = json.Deserialize();
-                    xml.Serializer_top_10(text);
+                    //xml.Serializer_top_10(text);
                 }
             }
 
@@ -151,7 +161,7 @@ namespace Lucky_Sappers
             var name_file = Path.Combine(FolderPath, $"{name}.{extension}");
             if (File.Exists(name_file) == false)
             {
-                File.Create(name_file).Close();
+                using (File.Create(name_file)) { }
             }
             FileName = name_file;
         }
@@ -233,12 +243,12 @@ namespace Lucky_Sappers
             if (format == "json")
             {
 
-                var game = new Game(filed, new JsonSerializer(), Time);
+                var game = new Game(filed, new JsonSerializer(), Time, true);
                 game.Show();
             }
             else if (format == "xml")
             {
-                var game = new Game(filed, new SerializerXML(),Time);
+                var game = new Game(filed, new SerializerXML(), Time, false);
                 game.Show();
             }
             else
@@ -303,7 +313,34 @@ namespace Lucky_Sappers
 
         private void button2_Click(object sender, EventArgs e)
         {
+
+            if (serialize == null)
+            {
+                MessageBox.Show("Сначала выберите формат сохранения");
+                return;
+            }
+
+            if (!File.Exists(FullPath))
+            {
+                MessageBox.Show("Файл сохранения не найден");
+                return;
+            }
+            try
+            {
+                var l = serialize.Load(FullPath);
+                if (l != null)
+                {
+                    var game = new Game(l, serialize, l.Timer, false);
+                    game.Show();
+                }
+            }
+            catch (Exception)
+            {
+                MessageBox.Show($"Ошибка загрузки");
+            }
+
         }
+
 
         private void button3_Click(object sender, EventArgs e)
         {
@@ -312,6 +349,11 @@ namespace Lucky_Sappers
                 FolderPath = folderBrowserDialog1.SelectedPath;
                 changePath();
             }
+        }
+
+        private void comboBox1_SelectedIndexChanged_1(object sender, EventArgs e)
+        {
+
         }
     }
 }

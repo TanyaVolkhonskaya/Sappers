@@ -11,22 +11,23 @@ namespace Model.Core
 {
     public class SerializerXML : Serializer
     {
-        public override void Save(Sizes world)
+        public override void Save(Sizes siziki)
         {
             var serializer = new XmlSerializer(typeof(SizeDTO));
-            using (var writer = new StreamWriter(FileP))
+            SetFilePath(FilePath);
+            using (var writer = new StreamWriter(FilePath))
             {
-                serializer.Serialize(writer, new SizeDTO(world));
+                serializer.Serialize(writer, new SizeDTO(siziki));
             }
         }
 
-        public override void Load(Sizes world)
+        public override Sizes Load(string siziki)
         {
-            using (var writer = new StreamReader(FileP))
+            using (var writer = new StreamReader(FilePath))
             {
                 var serializer = new XmlSerializer(typeof(SizeDTO));
                 var dto = (SizeDTO)serializer.Deserialize(writer);
-                
+                return (Sizes)dto.Deserialize();
             }
         }
 

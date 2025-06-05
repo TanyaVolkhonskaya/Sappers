@@ -13,9 +13,9 @@ namespace Model.Core
 
         public bool IsTimerRunning => _gameTimer.IsRunning;
         public int ElapsedSeconds => (int)(_gameTimer.Elapsed.TotalSeconds);
+        public int RemainingSeconds => Math.Max(0, Timer - ElapsedSeconds);
 
-        
-        
+
         public void StartTimer()
         {
             _gameTimer.Start();
@@ -29,5 +29,6 @@ namespace Model.Core
         {
             _gameTimer.Reset();
         }
+        public bool IsTimeExpired() { return RemainingSeconds <= 0; }
     }
 }

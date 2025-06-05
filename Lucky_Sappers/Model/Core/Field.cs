@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -9,17 +10,17 @@ namespace Model.Core
 {
     public partial class Sizes // свойства поля
     {
-        public int Width { get; }
-        public int Height { get; }
-        public Kletka[,] Kletochka { get; }
-        private int Counter { get; }
-        public int Level { get; }
+        public int Width { get; private set; }
+        public int Height { get; private set; }
+        public Kletka[,] Kletochka { get; private set; }
+        public int Counter { get; private set; }
+        public int Level { get; private set; }
         public bool Lose { get; private set; }
         public bool Win {  get; private set; }
-        private bool firstClickOccurred;
+        private bool firstClick;
         public int Timer {  get; set; }
-        
-        public Sizes(int width, int height, int level, int Time)
+
+        public Sizes(int width,int height, int level, int Time)
         {
             Width = width;
             Height = height;
@@ -31,8 +32,23 @@ namespace Model.Core
             BombPlace(level);
 
         }
-        public void LoadW()
+        public Sizes(int width, int height, int level, int Time, Kletka[,]kle)
         {
+            Width = width;
+            Height = height;
+            Level = level;
+            Kletochka = new Kletka[width, height];
+            Timer = Time;
+            foreach(var k in kle)
+            {
+                for (int i = 0; i < Kletochka.GetLength(0); i++)
+                {
+                    for (int j = 0; j < Kletochka.GetLength(1); j++)
+                    {
+                        Kletochka[i, j]= kle[i, j];
+                    }
+                }
+            }
 
         }
         private void GenerateNull()// поле со всеми null
@@ -47,12 +63,12 @@ namespace Model.Core
         }
         private void BombPlace(double level)// расстановка бомб 
         {
-            var rng = new Random();
+            var random = new Random();
             var bombiki = 0;
             while (bombiki < Counter)
             {
-                int x = rng.Next(0, Width);
-                int y = rng.Next(0, Height);
+                int x = random.Next(0, Width);
+                int y = random.Next(0, Height);
 
                 if (Kletochka[x, y] is Empty) // Проверяем, что клетка пустая
                 {
@@ -63,7 +79,7 @@ namespace Model.Core
         }
         private bool CheckBomb(int bombX, int bombY)
         {
-            int emptyCellsAround = 0;
+            int emptyKletkaAround = 0;
 
             // Проверяем все 8 соседних клеток
             for (int dx = -1; dx <= 1; dx++)
@@ -79,16 +95,16 @@ namespace Model.Core
                     if (nx >= 0 && nx < Width && ny >= 0 && ny < Height &&
                         Kletochka[nx, ny] is Empty)
                     {
-                        emptyCellsAround++;
+                        emptyKletkaAround++;
 
                         // Если уже нашли 3 подходящие клетки - можно выходить
-                        if (emptyCellsAround >= 3)
+                        if (emptyKletkaAround >= 3)
                             return true;
                     }
                 }
             }
 
-            return emptyCellsAround >= 3;
+            return emptyKletkaAround >= 3;
         }
         public void RevealCell(int x, int y)
         {
@@ -135,22 +151,7 @@ namespace Model.Core
             return count;
         }
 
-        public void CheckWinCondition()
-        {
-            Win = true;
-
-            for (int x = 0; x < Width; x++)
-            {
-                for (int y = 0; y < Height; y++)
-                {
-                    // Если есть не-бомба, которая не открыта и не помечена флагом
-                    if (!(Kletochka[x, y] is Bomb) && !Kletochka[x, y].Openspases)
-                    {
-                        Win = false;
-                        return;
-                    }
-                }
-            }
-        }
+        public static bool operator true(Sizes field) => !field.Lose && !field.Win;
+        public static bool operator false(Sizes field) => field.Lose || field.Win;
     }
 }

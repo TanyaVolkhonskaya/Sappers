@@ -13,10 +13,11 @@ namespace Model.Data
     {
         public int Width { get; set; }
         public int Height { get; set; }
-        public KletkaDTO[,] Kletochkadto { get; set; }
+        public KletkaDTO[][] Kletochkadto { get; set; }
         public bool Win { get; set; }
         public bool Lose { get; set; }
         public int Time { get; set; }
+        public int THeLast {  get; set; }
         public double Score {  get; set; }
         public int Level { get; set; }
         public SizeDTO() { }
@@ -28,14 +29,15 @@ namespace Model.Data
             Win = s.Win;
             Lose = s.Lose;
             Time =s.Timer;
-            Kletochkadto = new KletkaDTO[s.Width, s.Height];
+            Kletochkadto = new KletkaDTO[s.Width][];
             Score = CalculateScore();
             for (int i = 0; i < s.Width; i++)
             {
+                Kletochkadto[i] = new KletkaDTO[s.Height];
                 for (int j = 0; j < s.Height; j++)
                 {
                     var kletochkadto = s.Kletochka[i, j];
-                    Kletochkadto[i, j] = new KletkaDTO
+                    Kletochkadto[i][ j] = new KletkaDTO
                     {
                         IsBomb = kletochkadto.IsBomb,
                         IsFlagged = kletochkadto.IsFlagged,
@@ -51,7 +53,7 @@ namespace Model.Data
         {
             // Допустим: чем меньше время, тем выше результат
             // Формула: (Width * Height * Level) / TimeInSeconds
-            if (Time <= 0) Time = 1; // защита от деления на 0
+            if (THeLast <= 0) THeLast = 1; // защита от деления на 0
             return (Width * Height * Level) / Time;
         }
         public Sizes Deserialize()
@@ -61,7 +63,7 @@ namespace Model.Data
             {
                 for (int j = 0; j < Height; j++)
                 {
-                    var kletkadto = Kletochkadto[i, j];
+                    var kletkadto = Kletochkadto[i][j];
                     Kletka kletka;
 
                     if (kletkadto.IsBomb) kletka = new Bomb();

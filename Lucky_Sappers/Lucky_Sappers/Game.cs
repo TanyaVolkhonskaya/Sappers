@@ -24,12 +24,15 @@ namespace Lucky_Sappers
         Button[,] allButtons;
         private Sizes _field;
         static private int Time;
+        private bool ser;
 
-        public Game(Sizes field, ISerialize s,int t)
+        public Game(Sizes field, ISerialize s,int t, bool g)
         {
+            ser= g;
             serializer = s;
             _field = field;
             Time = t;
+            _field.StartTimer();
             InitializeComponent();
             InitializeButtons();
             InitializeTimer();
@@ -44,20 +47,16 @@ namespace Lucky_Sappers
         }
         private void UpdateTimerDisplay(object sender, EventArgs e)
         {
-            // Ваш существующий Label для таймера
-            second--;
-            if (second <= 0) { label1.Text = TimeSpan.FromSeconds(0).ToString(@"\:mm\:ss"); }
-            label1.Text = TimeSpan.FromSeconds(second).ToString(@"\:mm\:ss");
-            if (second == 0)
+            var remaining = Time - _field.ElapsedSeconds;
+            label1.Text = TimeSpan.FromSeconds(remaining).ToString(@"\:mm\:ss");
+
+            if (remaining <= 0)
             {
-                MainTimer.Stop();
+                _uiTimer.Stop();
                 MessageBox.Show("Время вышло");
-
-
+                Close();
             }
         }
-
-
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
             _uiTimer.Stop();
@@ -79,7 +78,7 @@ namespace Lucky_Sappers
                 {
                     var button = new Button
                     {
-                        Location = new Point(2 + x * cellSize, 2 + y * cellSize),
+                        Location = new Point(40 + x * cellSize, 20 + y * cellSize),
                         Size = new Size(cellSize, cellSize),
                         BackColor = c,
                         Tag = new Point(x, y)
@@ -163,7 +162,6 @@ namespace Lucky_Sappers
         {
 
         }
-        private int second = Time;
 
         private void timer1_Trick(object sender, EventArgs e)
         { }
@@ -173,7 +171,10 @@ namespace Lucky_Sappers
 
         private void Game_FormClosing(object sender, FormClosingEventArgs e)
         {
-            serializer.Save(_field);
+            if (ser)
+            {
+                serializer.Save(_field);
+            }
         }
     }
 }

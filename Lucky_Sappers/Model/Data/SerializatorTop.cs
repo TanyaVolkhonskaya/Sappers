@@ -14,7 +14,7 @@ using Newtonsoft.Json.Serialization;
 
 namespace Model.Data
 {
-    delegate string MathOperation(string fileName);
+    delegate string Name_Files(string fileName);
     public interface ISerializerTop
     {
         string FolderPath { get; }
