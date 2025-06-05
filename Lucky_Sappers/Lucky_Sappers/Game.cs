@@ -22,8 +22,8 @@ namespace Lucky_Sappers
         private ISerialize serializer;
         private Color c = Color.LightBlue;
         Button[,] allButtons;
-        private readonly Sizes _field;
-        private  int Time;
+        private Sizes _field;
+        static private int Time;
 
         public Game(Sizes field, ISerialize s,int t)
         {
@@ -52,6 +52,7 @@ namespace Lucky_Sappers
             {
                 MainTimer.Stop();
                 MessageBox.Show("Время вышло");
+
 
             }
         }
@@ -120,7 +121,6 @@ namespace Lucky_Sappers
             }
             else if (_field.Win)
             {
-                Time = 300 - second;
                 MessageBox.Show("Поздравляем! Вы победили!", "Победа");
                 Close();
             }
@@ -163,8 +163,7 @@ namespace Lucky_Sappers
         {
 
         }
-
-        private int second = 1;
+        private int second = Time;
 
         private void timer1_Trick(object sender, EventArgs e)
         { }

@@ -18,13 +18,13 @@ namespace Model.Data
     public interface ISerializerTop
     {
         string FolderPath { get; }
-        string FilePath { get; }
+        string FileP { get; }
         string SelectFile(string name);
     }
     public abstract class SerializerTop : ISerializerTop
     {
         public string FolderPath { get; private set; }
-        public string FilePath { get; private set; }
+        public string FileP { get; private set; }
         public abstract string Extension { get; }
 
         public string SelectFile(string name)
@@ -34,8 +34,8 @@ namespace Model.Data
             {
                 File.Create(name_file).Close();
             }
-            FilePath = name_file;
-            return FilePath;
+            FileP = name_file;
+            return FileP;
         }
     }
 

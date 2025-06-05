@@ -14,6 +14,10 @@ namespace Model.Data
         public int Width { get; set; }
         public int Height { get; set; }
         public KletkaDTO[,] Kletochkadto { get; set; }
+        public bool Win { get; set; }
+        public bool Lose { get; set; }
+        public int Time { get; set; }
+        public double Score {  get; set; }
         public int Level { get; set; }
         public SizeDTO() { }
         public SizeDTO(Sizes s)
@@ -21,7 +25,11 @@ namespace Model.Data
             Width = s.Width;
             Height = s.Height;
             Level = s.Level;
+            Win = s.Win;
+            Lose = s.Lose;
+            Time =s.Timer;
             Kletochkadto = new KletkaDTO[s.Width, s.Height];
+            Score = CalculateScore();
             for (int i = 0; i < s.Width; i++)
             {
                 for (int j = 0; j < s.Height; j++)
@@ -39,9 +47,16 @@ namespace Model.Data
                 }
             }
         }
+        private double CalculateScore()
+        {
+            // Допустим: чем меньше время, тем выше результат
+            // Формула: (Width * Height * Level) / TimeInSeconds
+            if (Time <= 0) Time = 1; // защита от деления на 0
+            return (Width * Height * Level) / Time;
+        }
         public Sizes Deserialize()
         {
-            var sizes = new Sizes(Width, Height, Level);
+            var sizes = new Sizes(Width, Height, Level, Time);
             for (int i = 0; i < Width; i++)
             {
                 for (int j = 0; j < Height; j++)

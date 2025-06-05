@@ -21,11 +21,11 @@ namespace Model.Core
     public abstract class Serializer : ISerialize
     {
         //private static int count;
-        protected string FilePath;
+        protected string FileP;
         public bool SetFilePath(string filePath)
         {
             if (filePath == null) filePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
-            FilePath = Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+            FileP = Path.Combine(filePath, "save");
             return File.Exists(filePath);
         }
         public virtual void Save(Sizes world) { }

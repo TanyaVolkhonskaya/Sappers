@@ -14,15 +14,16 @@ namespace Model.Data
     {
         public override void Save(Sizes world)
         {
+            SetFilePath(FileP);
             var json = JObject.FromObject(new SizeDTO(world));
 
-            File.WriteAllText(FilePath, json.ToString());
+            File.WriteAllText(FileP, json.ToString());
         }
         public override void Load(Sizes world) 
         {
-            var content = File.ReadAllText(FilePath);
-            var dto = JsonConvert.DeserializeObject<SizeDTO>(content);
-            dto.Deserialize();
+            var content = File.ReadAllText(FileP);
+
+            world.LoadW();
         }
     }
 }

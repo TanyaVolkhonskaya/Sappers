@@ -19,16 +19,20 @@ namespace Model.Core
         private bool firstClickOccurred;
         public int Timer {  get; set; }
         
-        public Sizes(int width, int height, int level)
+        public Sizes(int width, int height, int level, int Time)
         {
             Width = width;
             Height = height;
             Level = level;
             Kletochka = new Kletka[width, height];
-            Timer = 300;
+            Timer = Time;
             Counter = (int)((level * Width * Height) / 100);
             GenerateNull();
             BombPlace(level);
+
+        }
+        public void LoadW()
+        {
 
         }
         private void GenerateNull()// поле со всеми null

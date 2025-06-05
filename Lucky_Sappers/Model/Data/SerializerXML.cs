@@ -14,7 +14,7 @@ namespace Model.Core
         public override void Save(Sizes world)
         {
             var serializer = new XmlSerializer(typeof(SizeDTO));
-            using (var writer = new StreamWriter(FilePath))
+            using (var writer = new StreamWriter(FileP))
             {
                 serializer.Serialize(writer, new SizeDTO(world));
             }
@@ -22,17 +22,13 @@ namespace Model.Core
 
         public override void Load(Sizes world)
         {
-            //var serializer = new XmlSerializer(typeof(SizeDTO));
-            //using (var reader = new StreamReader(FilePath))
-            //{
-            //    var deser = (SizeDTO)serializer.Deserialize(reader);
-            //    var massive = deser.Kletochkadto;
-            //    var w = deser.Width;
-            //    var h = deser.Height;
-            //    var level = deser.Level;
-            //    world.LoadField(w, h, level, massive);
-            //}
+            using (var writer = new StreamReader(FileP))
+            {
+                var serializer = new XmlSerializer(typeof(SizeDTO));
+                var dto = (SizeDTO)serializer.Deserialize(writer);
+                
+            }
+        }
 
         }
     }
-}

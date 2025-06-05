@@ -22,15 +22,17 @@ namespace Lucky_Sappers
     {
         private int fieldWidth;
         private int fieldHeight;
+        private int Time;
         private int[] text;
+        private ISerialize serialize;
         private bool SaveOrNot=false;
         private string format="json";
         private int Procent = 30;
         private Size fields;
-
-        private string FolderPath= Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
+        private ISerialize _ser;
+        private string FolderPath=Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         private string FileName="save";
-        private string FullPath => Path.Combine(FolderPath, FileName + $".{format}");
+        private string FullPath=>Path.Combine(FolderPath, FileName+$".{format}");
         public Menu()
         {
 
@@ -40,6 +42,8 @@ namespace Lucky_Sappers
             //InitializeNewComboBox();
             InitilizeComboBoer();
             changePath();
+            FileName = "save";
+            format ="json";
         }
                 
         private void Menu_Load(object sender, EventArgs e)
@@ -86,12 +90,12 @@ namespace Lucky_Sappers
         {
             comboBox2.Items.AddRange(new object[]
             {
-            new { Text = "10x10", Width = 10, Height = 10 },
-            new { Text = "10x5",  Width = 10, Height = 5 },
-            new { Text = "5x5",   Width = 5,  Height = 5 },
-            new { Text = "1x1", Width = 1, Height = 1 },
-            new { Text = "20x20",  Width = 20, Height = 20 },
-            new { Text = "15x15",   Width = 15,  Height = 15 }
+            new { Text = "10x10", Width = 10, Height = 10,Time = 200 },
+            new { Text = "10x5",  Width = 10, Height = 5,Time =100 },
+            new { Text = "5x5",   Width = 5,  Height = 5, Time =50 },
+            new { Text = "1x1", Width = 1, Height = 1 ,Time =50},
+            new { Text = "20x20",  Width = 20, Height = 20,Time =400 },
+            new { Text = "15x15",   Width = 15,  Height = 15,Time=250 }
              });
 
             comboBox2.DisplayMember = "Text";
@@ -129,40 +133,9 @@ namespace Lucky_Sappers
             }
 
             tableLayoutPanel2.Controls.Clear();
-
-            if (!File.Exists(FullPath) || text == null || text.Length == 0)
-            {
-                tableLayoutPanel2.Visible = false;
-                label3.Text = "У вас нет результатов";
-                label3.Location = new Point(145, 250);
-                label3.Visible = true;
-            }
-            else
-            {
-                tableLayoutPanel2.Visible = true;
-                label3.Visible = false;
-
-                // Очищаем предыдущие элементы
-                tableLayoutPanel2.RowStyles.Clear();
-                tableLayoutPanel2.RowCount = text.Length;
-
-                for (int i = 0; i < text.Length; i++)
-                {
-                    // Добавляем стиль для строки
-                    tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.AutoSize));
-
-                    // Создаем новую метку для каждого результата (без var)
-
-                    label3.Text = $"{i + 1}. {text[i]}";
-                    label3.Dock = DockStyle.Fill;
-                    label3.TextAlign = ContentAlignment.MiddleLeft;
-                    label3.Font = new Font("Arial", 10);
-
-                    tableLayoutPanel2.Controls.Add(label3, 0, i);
-                }
-            }
         }
 
+            
         public void SelectFolder(string path)
         {
             if (path == null) return;
@@ -189,6 +162,7 @@ namespace Lucky_Sappers
                 dynamic selectedItem = comboBox2.SelectedItem;
                 fieldWidth = selectedItem.Width;
                 fieldHeight = selectedItem.Height;
+                Time = selectedItem.Time;
             }
         }
 
@@ -207,6 +181,7 @@ namespace Lucky_Sappers
         }
         private void changePath()
         {
+
             label2.Text = FullPath;
 
         }
@@ -216,7 +191,18 @@ namespace Lucky_Sappers
         }
         private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
         {
-            MMenu();
+            format = (string)comboBox1.SelectedItem;
+            label2.Text = FullPath;
+            switch (format)
+            {
+                case "json":
+                    serialize = new JsonSerializer();
+                    break;
+                case "xml":
+                    serialize = new SerializerXML();
+                    break;
+            }
+            changePath();
         }
 
 
@@ -242,17 +228,17 @@ namespace Lucky_Sappers
                 MessageBox.Show("Выберите размерность");
                 return;
             }
-            var filed = new Sizes(fieldWidth, fieldHeight, Procent);
+            var filed = new Sizes(fieldWidth, fieldHeight, Procent,Time);
             var f = format;
             if (format == "json")
             {
 
-                var game = new Game(filed, new JsonSerializer(), 300);
+                var game = new Game(filed, new JsonSerializer(), Time);
                 game.Show();
             }
             else if (format == "xml")
             {
-                var game = new Game(filed, new SerializerXML(),300);
+                var game = new Game(filed, new SerializerXML(),Time);
                 game.Show();
             }
             else
@@ -287,12 +273,17 @@ namespace Lucky_Sappers
         private void textBox1_TextChanged(object sender, EventArgs e)
         {
             var sb = new StringBuilder();
-            foreach (var c in textBox1.Text)
+            for (int i = 0; i < textBox1.Text.Length; i++)
             {
-                if (char.IsLetterOrDigit(c)) sb.Append(c);
+                var c = textBox1.Text[i];
+                if (char.IsDigit(c) || char.IsLetter(c))
+                {
+                    sb.Append(c);
+                }
             }
-            FileName = sb.Length > 0 ? sb.ToString() : "save";
-            textBox1.Text = FileName;
+            FileName = sb.ToString();
+            textBox1.Text = sb.ToString();
+            if (FileName == "") FileName = "save";
             changePath();
         }
         private void Form1_Activated(object sender, EventArgs e)
@@ -311,6 +302,16 @@ namespace Lucky_Sappers
         }
 
         private void button2_Click(object sender, EventArgs e)
-        {}
+        {
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                FolderPath = folderBrowserDialog1.SelectedPath;
+                changePath();
+            }
+        }
     }
 }
