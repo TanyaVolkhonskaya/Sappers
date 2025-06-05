@@ -23,9 +23,10 @@ namespace Lucky_Sappers
         private int fieldWidth;
         private int fieldHeight;
         private int[] text;
-
+        private bool SaveOrNot=false;
         private string format="json";
         private int Procent = 30;
+        private Size fields;
 
         private string FolderPath= Environment.GetFolderPath(Environment.SpecialFolder.Desktop);
         private string FileName="save";
@@ -246,12 +247,12 @@ namespace Lucky_Sappers
             if (format == "json")
             {
 
-                var game = new Game(filed, new JSON_SerializerList(), 300);
+                var game = new Game(filed, new JsonSerializer(), 300);
                 game.Show();
             }
             else if (format == "xml")
             {
-                var game = new Game(filed, new XML_SerializerList(),300);
+                var game = new Game(filed, new SerializerXML(),300);
                 game.Show();
             }
             else
@@ -277,14 +278,6 @@ namespace Lucky_Sappers
 
         }
 
-        private void button3_Click_1(object sender, EventArgs e)
-        {
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-            {
-                FileName = folderBrowserDialog1.SelectedPath;
-                changePath();
-            }
-        }
 
         private void label2_Click_1(object sender, EventArgs e)
         {
@@ -311,5 +304,13 @@ namespace Lucky_Sappers
         {
 
         }
+
+        private void Menu_Load_2(object sender, EventArgs e)
+        {
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {}
     }
 }

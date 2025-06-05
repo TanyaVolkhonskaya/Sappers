@@ -19,64 +19,43 @@ namespace Lucky_Sappers
     public partial class Game : Form
     {
         private  Timer _uiTimer;
-        private ISerializer _ser;
+        private ISerialize serializer;
         private Color c = Color.LightBlue;
         Button[,] allButtons;
         private readonly Sizes _field;
-        private readonly int Time;
+        private  int Time;
 
-        public Game(Sizes field, ISerializer s,int t)
+        public Game(Sizes field, ISerialize s,int t)
         {
-            _ser = s;
+            serializer = s;
             _field = field;
             Time = t;
             InitializeComponent();
             InitializeButtons();
             InitializeTimer();
+            MainTimer.Start();
 
         }
         private void InitializeTimer()
         {
-            _uiTimer = new System.Windows.Forms.Timer { Interval = 500 };
+            _uiTimer = new Timer { Interval = 1000 };
             _uiTimer.Tick += UpdateTimerDisplay;
             _uiTimer.Start();
         }
         private void UpdateTimerDisplay(object sender, EventArgs e)
         {
             // Ваш существующий Label для таймера
-            if (label1 != null)
+            second--;
+            if (second <= 0) { label1.Text = TimeSpan.FromSeconds(0).ToString(@"\:mm\:ss"); }
+            label1.Text = TimeSpan.FromSeconds(second).ToString(@"\:mm\:ss");
+            if (second == 0)
             {
-                if (_field.RemainingSeconds.HasValue)
-                {
-                    // Режим с лимитом времени
-                    int remaining = _field.RemainingSeconds.Value;
-                    label1.Text = $"Осталось: {remaining / 60:00}:{remaining % 60:00}";
+                MainTimer.Stop();
+                MessageBox.Show("Время вышло");
 
-                    // Визуальные эффекты при малом времени
-                    if (remaining <= 10)
-                    {
-                        label1.ForeColor = Color.Red;
-                        label1.BackColor = Color.Yellow;
-                        if (remaining % 2 == 0) // Мигание
-                            label1.BackColor = Color.LightYellow;
-                    }
-
-                    // Проверка окончания времени
-                    if (remaining <= 0)
-                    {
-                        _uiTimer.Stop();
-                        MessageBox.Show("Время вышло!", "Игра окончена",
-                                      MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
-                        Close();
-                    }
-                }
-                else
-                {
-                    // Режим без лимита - показываем прошедшее время
-                    label1.Text = $"Прошло: {_field.ElapsedSeconds / 60:00}:{_field.ElapsedSeconds % 60:00}";
-                }
             }
         }
+
 
         protected override void OnFormClosing(FormClosingEventArgs e)
         {
@@ -141,6 +120,7 @@ namespace Lucky_Sappers
             }
             else if (_field.Win)
             {
+                Time = 300 - second;
                 MessageBox.Show("Поздравляем! Вы победили!", "Победа");
                 Close();
             }
@@ -160,7 +140,7 @@ namespace Lucky_Sappers
                         if (cell is Bomb)
                         {
                             button.Text = "*";
-                            button.BackColor = Color.Red;
+                            button.BackColor = Color.Black;
                         }
                         else
                         {
@@ -177,11 +157,6 @@ namespace Lucky_Sappers
                 }
             }
         }
-        private void Form_Closing(object sender, FormClosingEventArgs e)
-        {
-
-        }
-
 
 
         private void button1_Click(object sender, EventArgs e)
@@ -189,8 +164,17 @@ namespace Lucky_Sappers
 
         }
 
+        private int second = 1;
+
+        private void timer1_Trick(object sender, EventArgs e)
+        { }
         private void label1_Click(object sender, EventArgs e)
         {
+        }
+
+        private void Game_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            serializer.Save(_field);
         }
     }
 }

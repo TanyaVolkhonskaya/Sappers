@@ -36,7 +36,6 @@
             this.comboBox2 = new System.Windows.Forms.ComboBox();
             this.folderBrowserDialog1 = new System.Windows.Forms.FolderBrowserDialog();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.Поиск = new System.Windows.Forms.Button();
             this.label2 = new System.Windows.Forms.Label();
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -61,6 +60,7 @@
             this.button2.TabIndex = 1;
             this.button2.Text = "Продолжить";
             this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
             // trackBar1
             // 
@@ -128,16 +128,6 @@
             this.tableLayoutPanel2.TabIndex = 7;
             this.tableLayoutPanel2.Paint += new System.Windows.Forms.PaintEventHandler(this.tableLayoutPanel2_Paint_1);
             // 
-            // Поиск
-            // 
-            this.Поиск.Location = new System.Drawing.Point(67, 310);
-            this.Поиск.Name = "Поиск";
-            this.Поиск.Size = new System.Drawing.Size(202, 60);
-            this.Поиск.TabIndex = 10;
-            this.Поиск.Text = "Найти файл\r\n";
-            this.Поиск.UseVisualStyleBackColor = true;
-            this.Поиск.Click += new System.EventHandler(this.button3_Click_1);
-            // 
             // label2
             // 
             this.label2.AutoSize = true;
@@ -172,7 +162,6 @@
             this.Controls.Add(this.label3);
             this.Controls.Add(this.textBox1);
             this.Controls.Add(this.label2);
-            this.Controls.Add(this.Поиск);
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.comboBox2);
             this.Controls.Add(this.comboBox1);
@@ -181,6 +170,7 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.button1);
             this.Name = "Menu";
+            this.Load += new System.EventHandler(this.Menu_Load_2);
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -195,7 +185,6 @@
         private System.Windows.Forms.ComboBox comboBox2;
         private System.Windows.Forms.FolderBrowserDialog folderBrowserDialog1;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
-        private System.Windows.Forms.Button Поиск;
         private System.Windows.Forms.Label label2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.Label label3;

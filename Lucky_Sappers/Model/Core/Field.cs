@@ -17,10 +17,7 @@ namespace Model.Core
         public bool Lose { get; private set; }
         public bool Win {  get; private set; }
         private bool firstClickOccurred;
-        private DateTime _startTime;
-        private int? _timeLimit;
-        private readonly Stopwatch _gameStopwatch = new Stopwatch();
-        private bool _firstClickOccurred;
+        public int Timer {  get; set; }
         
         public Sizes(int width, int height, int level)
         {
@@ -28,15 +25,11 @@ namespace Model.Core
             Height = height;
             Level = level;
             Kletochka = new Kletka[width, height];
+            Timer = 300;
             Counter = (int)((level * Width * Height) / 100);
             GenerateNull();
             BombPlace(level);
 
-        }
-        public void StartTimer(int? timeLimit = null)
-        {
-            _timeLimit = timeLimit;
-            _startTime = DateTime.Now;
         }
         private void GenerateNull()// поле со всеми null
         {

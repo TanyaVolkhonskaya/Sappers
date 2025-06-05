@@ -51,6 +51,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "Game";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Game_FormClosing);
             this.Load += new System.EventHandler(this.Game_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

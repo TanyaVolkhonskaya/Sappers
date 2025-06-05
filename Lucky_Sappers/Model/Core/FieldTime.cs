@@ -25,7 +25,10 @@ namespace Model.Core
         }
 
         
-
+        public void StartTimer()
+        {
+            _gameTimer.Start();
+        }
         public void StopTimer()
         {
             _gameTimer.Stop();
