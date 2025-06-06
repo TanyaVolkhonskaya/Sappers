@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.13.35931.197 d17.13
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lucky_Sappers", "Lucky_Sappers\Lucky_Sappers.csproj", "{F784A884-FA09-4940-B576-08880DD005DD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Model", "Model\Model.csproj", "{599CE43D-9DC3-44C0-9076-FE79E0BE966E}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{F784A884-FA09-4940-B576-08880DD005DD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F784A884-FA09-4940-B576-08880DD005DD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F784A884-FA09-4940-B576-08880DD005DD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F784A884-FA09-4940-B576-08880DD005DD}.Release|Any CPU.Build.0 = Release|Any CPU
+		{599CE43D-9DC3-44C0-9076-FE79E0BE966E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{599CE43D-9DC3-44C0-9076-FE79E0BE966E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{599CE43D-9DC3-44C0-9076-FE79E0BE966E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{599CE43D-9DC3-44C0-9076-FE79E0BE966E}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {A9CA85BC-50E4-4B13-8246-EB2ADC6A85DC}
+	EndGlobalSection
+EndGlobal
